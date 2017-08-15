@@ -32,25 +32,27 @@ Plotly.js events are captured and routed to Mapbox GL JS, which then makes updat
  -->
 
 
-# Using Mapbox and GDAL
+# Using Mapbox and GDAL to Visualize Trends in
 
-# to Visualize Trends in
-
-# Ocean Phytoplankton from
-
-# NASA Earth Observations Satellite Images
+# Ocean Phytoplankton from NASA Earth Observations Satellite Images
 <br>
 ## Command Line Cartography
 
 <br>
 
 ![](assets/index-Rob-Chohan.png)
+
 http://RobLabs.com
 
 <br>
 
 ![](assets/index-Michiel-Riedjijk.png)
+
 http://Oceaneos.org
+
+<br>
+
+## Presented at FOSS4G 2017 Boston, Wed Aug 16, 2017
 ---
 
 # Oceaneos Marine Research Foundation
