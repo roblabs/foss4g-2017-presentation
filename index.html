@@ -57,6 +57,12 @@ Plotly.js events are captured and routed to Mapbox GL JS, which then makes updat
 <p><br></p>
 <h2 id="presented-at-foss4g-2017-boston-wed-aug-16-2017">Presented at FOSS4G 2017 Boston, Wed Aug 16, 2017</h2>
 </div>
+<div><ul>
+<li>Maps tell stories</li>
+<li>Visualizing NASA Earth Observations Satellite Images</li>
+<li>Image Compression with <code>WebP</code></li>
+</ul>
+</div>
 <div><h1 id="oceaneos-marine-research-foundation">Oceaneos Marine Research Foundation</h1>
 <p><img src="assets/index-OceanSeedingDiagram-854x474.png" alt=""></p>
 <p>Adding nutrients to a depleted marine ecosystem.</p>
@@ -177,6 +183,10 @@ gdal2tilesp.py -z 0-6 -f PNG out.vrt out
 <div><h1 id="color-lookup-tables-clut-">Color Lookup Tables (cLUT)</h1>
 <p><img src="assets/index-legend.png" alt=""></p>
 </div>
+<div><h1 id="8-bit-index-geotiff">8-bit Index GeoTIFF</h1>
+<h2 id="8-bit-256-color-levels">8-bit = 256 color levels</h2>
+<p><img src="assets/index-modis_chlor-levels.png" alt=""></p>
+</div>
 <div><h1 id="color-advice">Color Advice</h1>
 <table>
 <thead>
@@ -242,7 +252,39 @@ gdal2tilesp.py -z 0-6 -f PNG out.vrt out
 <li><code>WebP</code> tiles are ~1/3 the size of PNG tiles (~15 MB vs. ~45 MB per month)</li>
 </ul>
 </div>
+<div><h1 id="-webp-"><code>WebP</code></h1>
+<ul>
+<li>Limits on Mapbox.com - A single <code>xyz</code> tile cannot be &gt; 500 KB</li>
+<li><code>WebP</code> scales well for Mobile map solutions</li>
+</ul>
+<p><img src="assets/index-500k.png" alt=""></p>
+</div>
 <div><h1 id="time-series">Time Series</h1>
+</div>
+<div><p>NEO Data Available</p>
+<ul>
+<li>JPEG, PNG</li>
+<li>GeoTIFF<ul>
+<li>8-bit index (perfect for color LUT)</li>
+<li>32-bit floating point (perfect for computations)</li>
+</ul>
+</li>
+<li>Pixels on the scale of 1.0° to 0.1°</li>
+<li>Monthly data since June 2002<ul>
+<li><blockquote>
+<p>180 months</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><em>8-day</em> data since July 2002<ul>
+<li><blockquote>
+<p>650 8-day periods</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
 </div>
 <div><h1 id="numpy-for-data-analysis">NumPy for Data Analysis</h1>
 <pre><code class="lang-bash">float = gdal.Open(&#39;MY1DMW_CHLORA_2016-09-05.FLOAT.TIFF&#39;)

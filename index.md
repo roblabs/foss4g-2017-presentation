@@ -55,6 +55,12 @@ http://Oceaneos.org
 ## Presented at FOSS4G 2017 Boston, Wed Aug 16, 2017
 ---
 
+* Maps tell stories
+* Visualizing NASA Earth Observations Satellite Images
+* Image Compression with `WebP`
+
+---
+
 # Oceaneos Marine Research Foundation
 
 ![](assets/index-OceanSeedingDiagram-854x474.png)
@@ -167,6 +173,13 @@ gmic.eu
 
 ![](assets/index-legend.png)
 
+---
+
+# 8-bit Index GeoTIFF
+
+## 8-bit = 256 color levels
+
+![](assets/index-modis_chlor-levels.png)
 
 ---
 
@@ -232,7 +245,31 @@ GDAL drivers to the rescue
 
 ---
 
+# `WebP`
+
+* Limits on Mapbox.com - A single `xyz` tile cannot be > 500 KB
+* `WebP` scales well for Mobile map solutions
+
+![](assets/index-500k.png)
+
+---
+
 # Time Series
+
+---
+
+NEO Data Available
+
+* JPEG, PNG
+* GeoTIFF
+  * 8-bit index (perfect for color LUT)
+  * 32-bit floating point (perfect for computations)
+* Pixels on the scale of 1.0° to 0.1°
+* Monthly data since June 2002
+  * > 180 months
+* *8-day* data since July 2002
+  * > 650 8-day periods
+
 
 ---
 
