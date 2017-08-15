@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+  <title>big</title>
+  <link href='big.css' rel='stylesheet' type='text/css' />
+  <link href='highlight.css' rel='stylesheet' type='text/css' />
+  <style>
+    .new-shiny { background: #aaaaaa; }
+  </style>
+  <script src='big.js'></script>
+  <script src='highlight.js'></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body class='light'>
+  <div><!-- Maps tell stories.
+
+NASA satellite images of the color of the ocean can also tell a story.
+
+We will discuss a geo-imaging pipeline for processing a time series of NASA satellite images, hosting on Mapbox, and using D3.js and Plot.ly to interactively visualize data from our oceans over time.
+
+ePi Rational built an imaging & mapping pipeline for Oceaneos.org that processed NASA satellite images to visualize trends in phytoplankton in the ocean.
+
+Oceaneos is studying Ocean Seeding. A simple idea: that adding nutrients to a depleted marine ecosystem will stimulate photosynthesis, causing plankton to grow, thus restoring the bottom of the marine food chain that fish require for growth.
+
+We will discuss our geo-image pipeline for processing NASA GeoTiffs using GDAL and hosted at Mapbox.com, and other open source Javascript libraries for data visualization.
+
+We also utilized NumPy to compute basic statistics on the GeoTiffs.
+
+We will also discuss our data compression techniques for operating on floating point GeoTiff data, as well as image compression with WebP.
+
+The implemented web page design is built on top of D3.js and a Plotly.js time series graph at the bottom of the map.
+
+When the user clicked on a particular date, the Mapbox map would also update to the chlorophyll levels time series for a time slice in the 13 year span.
+
+Plotly.js events are captured and routed to Mapbox GL JS, which then makes updates to the map with images from Mapbox.com. -->
+<!--  Links
+
+
+* GDAL2Tiles  http://wiki.osgeo.org/wiki/GDAL2Tiles_SoC_2007
+* G'Mic - http://gmic.eu
+* Color Advice -  http://www.kennethmoreland.com/color-advice/
+* Visualizing and laying out time-series data built on D3.js —  https://www.metricsgraphicsjs.org
+* A new image format for the Web — https://developers.google.com/speed/webp/
+ -->
+<h1 id="using-mapbox-and-gdal">Using Mapbox and GDAL</h1>
+<h1 id="to-visualize-trends-in">to Visualize Trends in</h1>
+<h1 id="ocean-phytoplankton-from">Ocean Phytoplankton from</h1>
+<h1 id="nasa-earth-observations-satellite-images">NASA Earth Observations Satellite Images</h1>
+<p><br></p>
+<h2 id="command-line-cartography">Command Line Cartography</h2>
+<p><br></p>
+<p><img src="assets/index-Rob-Chohan.png" alt="">
+<a href="http://RobLabs.com">http://RobLabs.com</a></p>
+<p><br></p>
+<p><img src="assets/index-Michiel-Riedjijk.png" alt="">
+<a href="http://Oceaneos.org">http://Oceaneos.org</a></p>
+</div>
+<div><h1 id="oceaneos-marine-research-foundation">Oceaneos Marine Research Foundation</h1>
+<p><img src="assets/index-OceanSeedingDiagram-854x474.png" alt=""></p>
+<p>Adding nutrients to a depleted marine ecosystem.</p>
+</div>
+<div><h1 id="icelandic-volcano">Icelandic Volcano</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><img src="assets/index-Iceland-Before-Logo-1024x683.jpg" alt=""></td>
+<td><img src="assets/index-Iceland-After-Logo-1024x683.jpg" alt=""></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div><h1 id="nasa-earth-observations-neo-">NASA Earth Observations (NEO)</h1>
+</div>
+<div><h3 id="one-of-the-best-places-to-study-earth-is-from-space-">One of the best places to study Earth is from space.</h3>
+<p><br></p>
+<h3 id="nasa-satellites-continually-orbit-the-globe-collecting-information-about-earth-s-ocean-atmosphere-and-land-surfaces-">NASA satellites continually orbit the globe, collecting information about Earth’s ocean, atmosphere, and land surfaces.</h3>
+<p><br></p>
+<h3 id="satellites-can-even-monitor-the-activity-of-life-forms-such-as-_phytoplankton_-from-their-remote-vantage-points-">Satellites can even monitor the activity of life forms, such as <em>phytoplankton</em>, from their remote vantage points.</h3>
+<p><br></p>
+<h3 id="neo-is-part-of-the-eos-project-science-office-located-at-nasa-goddard-space-flight-center-">NEO is part of the EOS Project Science Office located at NASA Goddard Space Flight Center.</h3>
+</div>
+<div><h1 id="neo">NEO</h1>
+<p><img src="assets/index-NEO-Ocean.png" alt=""></p>
+</div>
+<div><p><img src="assets/index-June-2017-1-month.png" alt=""></p>
+</div>
+<div><p><img src="assets/index-NEO-file-types.gif" alt=""></p>
+</div>
+<div><p>NEO Data Available</p>
+<ul>
+<li>JPEG, PNG</li>
+<li>GeoTIFF<ul>
+<li>8-bit index (perfect for color LUT)</li>
+<li>32-bit floating point (perfect for computations)</li>
+</ul>
+</li>
+<li>Pixels on the scale of 1.0° to 0.1°</li>
+<li>Monthly data since June 2002<ul>
+<li><blockquote>
+<p>180 months</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>8-day data since July 2002<ul>
+<li><blockquote>
+<p>650 8-day periods</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div><h1 id="architecture-use-gdal2tiles-py-to-tile-0-1-geotiffs">Architecture - Use <code>gdal2tiles.py</code> to Tile 0.1° GeoTIFFs</h1>
+<p><br>
+<img src="assets/index-Pyramid.jpg" alt=""></p>
+<pre><code class="lang-bash">gdal_translate -of vrt file.tif out.vrt
+
+gdal2tilesp.py -z 0-6 -f PNG out.vrt out
+</code></pre>
+</div>
+<div><h1 id="geo-imaging-pipeline">Geo-Imaging pipeline</h1>
+<h2 id="simply">Simply</h2>
+<ul>
+<li>Download &gt;800 images from NASA</li>
+<li>preprocess</li>
+<li>Apply Color Lookup table</li>
+<li>GDAL2Tiles</li>
+<li>Upload <code>mbtiles</code> to Mapbox.com</li>
+</ul>
+</div>
+<div><!-- https://github.com/oceaneos/MapBox/issues/21 -->
+<h3 id="image-healing">Image Healing</h3>
+<h4 id="g-mic-inpaint-">G&#39;MIC <code>inpaint</code></h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td><img src="assets/index-Image-with-nodata.png" alt=""></td>
+<td><img src="assets/index-image-with-inpaint.png" alt=""></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><em>Rejected my own work</em> — but could make better use of G&#39;MIC</li>
+<li>We used an imaging healing method in Photoshop</li>
+</ul>
+</div>
+<div><pre><code class="lang-bash">gmic kindlmann-MY1DMM_CHLORA_2016-01.tif -to_colormode 3 \
+  bathy.3600x1800.threshold.png \
+  -blend xor \
+  --select_color[0] 0,0,0,0 \
+  -inpaint[0] [1],0 \
+  -o result.png
+</code></pre>
+<p>gmic.eu</p>
+</div>
+<div><h1 id="color-lookup-tables-clut-">Color Lookup Tables (cLUT)</h1>
+<p><img src="assets/index-legend.png" alt=""></p>
+</div>
+<div><h1 id="color-advice">Color Advice</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="assets/index-normal-vs-inverted.png" alt=""></td>
+<td><img src="assets/index-colormaps.gif" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p><a href="http://KennethMoreland.com/color-advice">http://KennethMoreland.com/color-advice</a></p>
+</div>
+<div><h1 id="-gdal2tiles-py-"><code>gdal2tiles.py</code></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><img src="assets/index-0.0.0.png" alt=""></td>
+<td><img src="assets/index-slippy1.gif" alt=""></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div><h1 id="overlay-over-google-mapbox">Overlay over Google Mapbox</h1>
+<p><img src="assets/index-Oceaneos-pipeline-over-Google-Maps.png" alt=""></p>
+<ul>
+<li>Preferred no text nor borders</li>
+</ul>
+</div>
+<div><h1 id="chlorophyll-over-mapbox-satellite">Chlorophyll over Mapbox Satellite</h1>
+<p><img src="assets/index-NEO-Mapbox-Satellite.png" alt=""></p>
+</div>
+<div><p>Done once ... now scale</p>
+</div>
+<div><h1 id="upload-a-mbtile-to-mapbox-com">Upload a <code>MBTile</code> to Mapbox.com</h1>
+<p><img src="assets/index-5GB-quota.png" alt=""></p>
+<ul>
+<li>Initial 5.0 GB on Mapbox.com</li>
+<li>With PNG Pipeline, hit the 5.0 GB limit after 43 months of data</li>
+</ul>
+</div>
+<div><h1 id="image-compression">Image Compression</h1>
+<p>GDAL drivers to the rescue</p>
+</div>
+<div><h1 id="solution-webp-">Solution <code>WebP</code></h1>
+<p><img src="assets/index-2.7GB.png" alt=""></p>
+<ul>
+<li>Use the <code>WebP</code> driver in GDAL to compress the data even smaller</li>
+<li><code>WebP</code> tiles are ~1/3 the size of PNG tiles (~15 MB vs. ~45 MB per month)</li>
+</ul>
+</div>
+<div><h1 id="time-series">Time Series</h1>
+</div>
+<div><h1 id="numpy-for-data-analysis">NumPy for Data Analysis</h1>
+<pre><code class="lang-bash">float = gdal.Open(&#39;MY1DMW_CHLORA_2016-09-05.FLOAT.TIFF&#39;)
+f = numpy.array(float.GetRasterBand(1).ReadAsArray())
+grid = numpy.meshgrid(f)
+
+# Extract chlorophyll less than 1.0
+t = numpy.less (grid , 1.0)
+choice = numpy.logical_and(t , grid)
+lowPlankton = numpy.extract(choice, grid)
+</code></pre>
+</div>
+<div><h1 id="displaying-the-time-series">Displaying the Time series</h1>
+<p><br>
+<img src="assets/index-Oceaneos-Slider.gif" alt=""></p>
+<ul>
+<li><em>Rejected my own work</em> - Slider would not work with &gt;160 months of satellite data</li>
+</ul>
+</div>
+<div><h1 id="metricsgraphics-js">MetricsGraphics.js</h1>
+<h2 id="visualizing-and-laying-out-time-series-data-built-on-d3-js">Visualizing and laying out time-series data built on D3.js</h2>
+<p><br>
+<img src="assets/index-metrics-graphics.gif" alt=""></p>
+<ul>
+<li>Next try <code>Plot.ly</code></li>
+</ul>
+</div>
+<div><h1 id="plot-ly">Plot.ly</h1>
+<h2 id="d3-js-charting-for-science">D3.js charting for science</h2>
+<p><br>
+<img src="assets/index-plotly.gif" alt=""></p>
+</div>
+<div><h1 id="the-oceaneos-global-chlorophyll-map">The Oceaneos Global Chlorophyll Map</h1>
+<p><img src="assets/index-final-oceaneos-map.gif" alt=""></p>
+<p><a href="http://Oceaneos.org/chlorophyllmap">http://Oceaneos.org/chlorophyllmap</a></p>
+</div>
+<div><h1 id="summary-maps-tell-stories">Summary — Maps tell stories</h1>
+<ul>
+<li>Scale</li>
+<li>Maps as a time series</li>
+<li>Image compression</li>
+<li>Visualization libraries for the Javascript</li>
+</ul>
+</div>
+<div><h1 id="summary-of-tools">Summary of Tools</h1>
+<ul>
+<li>OSGEO — <a href="http://osgeo.org">http://osgeo.org</a><ul>
+<li><code>gdal2tiles.py</code></li>
+<li><code>gdal2tilesp.py</code> — parallel processing, <a href="https://github.com/roblabs/gdal2tilesp">https://github.com/roblabs/gdal2tilesp</a></li>
+<li><code>WebP</code> driver — <a href="http://developers.google.com/speed/webp">http://developers.google.com/speed/webp</a>
+<br></li>
+</ul>
+</li>
+<li>Mapbox<ul>
+<li><a href="http://Mapbox.com">http://Mapbox.com</a> for hosting of tilesets</li>
+<li>Mapbox GL for Javascript, for displaying  tilesets, <a href="https://mapbox.com/mapbox-gl-js">https://mapbox.com/mapbox-gl-js</a></li>
+<li><code>mb-util</code> for packing <code>mbtiles</code>, <a href="https://github.com/mapbox/mbutil">https://github.com/mapbox/mbutil</a></li>
+<li><code>mapbox</code> CLI for uploading <code>mbtiles</code>, <a href="https://github.com/mapbox/mapbox-cli-py">https://github.com/mapbox/mapbox-cli-py</a>
+<br></li>
+</ul>
+</li>
+<li>d3.js — <a href="http://d3js.org">http://d3js.org</a><ul>
+<li>MetricsGraphics.js — <a href="http://metricsgraphicsjs.org">http://metricsgraphicsjs.org</a></li>
+<li>Plot.ly — <a href="http://plot.ly">http://plot.ly</a></li>
+<li>Final map was done in <a href="http://HighCharts.com">http://HighCharts.com</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div><h1 id="text-online-resources">Text &amp; Online Resources</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><img src="assets/index-Garrard-GWP-HI.png.jpeg" alt=""></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>Chris Garrard, Geoprocessing With Python, <a href="https://manning.com/books/geoprocessing-with-python">https://manning.com/books/geoprocessing-with-python</a></p>
+</li>
+<li><p>Python GDAL/OGR Cookbook, <a href="https://pcjericks.github.io/py-gdalogr-cookbook/">https://pcjericks.github.io/py-gdalogr-cookbook/</a></p>
+</li>
+</ul>
+</div>
+<div><h1 id="thank-you-">Thank You‼️</h1>
+<h1 id="questions-">Questions⁇</h1>
+<p><img src="assets/index-Thank-you.jpg" alt=""></p>
+</div>
+<div><h1 id="backup">Backup</h1>
+</div>
+<div><h1 id="vector-approach">Vector Approach</h1>
+<p><img src="assets/index-draw-geojson.png" alt=""></p>
+<ul>
+<li>Extract raw data from Floating Point GeoTIFF for 1° grid</li>
+<li>Apply color map</li>
+<li>Draw using Mapbox GL JS tools</li>
+</ul>
+</div>
+<div><h1 id="scaling-webp-">Scaling <code>WebP</code></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><img src="assets/index-coconino.png" alt=""></td>
+<td><img src="assets/index-coconino2.png" alt=""></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>7.5 minute US Forest Service Topo Maps (FSTopo)</li>
+<li><a href="http://RobLabs.com/flag">http://RobLabs.com/flag</a></li>
+</ul>
+</div>
+</body>
+</html>
