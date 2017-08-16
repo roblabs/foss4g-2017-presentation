@@ -36,7 +36,7 @@ Plotly.js events are captured and routed to Mapbox GL JS, which then makes updat
 
 # Ocean Phytoplankton from NASA Earth Observations Satellite Images
 <br>
-## Command Line Cartography
+## Presented at FOSS4G 2017 Boston, August 16, 2017
 
 <br>
 
@@ -50,10 +50,26 @@ http://RobLabs.com
 
 http://Oceaneos.org
 
-<br>
+<hr>
 
-## Presented at FOSS4G 2017 Boston, Wed Aug 16, 2017
+## Command Line Cartography
 ---
+
+# eπ Maps — Offline Maps for Mobile
+
+![](assets/index-epi-apps.png)
+
+### iOS
+
+<hr>
+
+![](assets/index-epi-apps-android.png)
+### Android
+
+##### ePi Rational, Inc.
+
+---
+# Topics
 
 * Maps tell stories
 * Visualizing NASA Earth Observations Satellite Images
@@ -65,7 +81,7 @@ http://Oceaneos.org
 
 ![](assets/index-OceanSeedingDiagram-854x474.png)
 
-Adding nutrients to a depleted marine ecosystem.
+"Adding nutrients to a depleted marine ecosystem.""
 
 ---
 # Icelandic Volcano
@@ -81,13 +97,13 @@ Adding nutrients to a depleted marine ecosystem.
 
 ---
 
-### One of the best places to study Earth is from space.
+### "One of the best places to study Earth is from space.""
 <br>
-### NASA satellites continually orbit the globe, collecting information about Earth’s ocean, atmosphere, and land surfaces.
+### "NASA satellites continually orbit the globe, collecting information about Earth’s ocean, atmosphere, and land surfaces.""
 <br>
-### Satellites can even monitor the activity of life forms, such as _phytoplankton_, from their remote vantage points.
+### "Satellites can even monitor the activity of life forms, such as _phytoplankton_, from their remote vantage points.""
 <br>
-### NEO is part of the EOS Project Science Office located at NASA Goddard Space Flight Center.
+### "NEO is part of the EOS Project Science Office located at NASA Goddard Space Flight Center.""
 
 ---
 
@@ -129,7 +145,7 @@ gdal_translate -of vrt file.tif out.vrt
 gdal2tilesp.py -z 0-6 -f PNG out.vrt out
 ```
 
-
+source — GDAL2Tiles  http://wiki.osgeo.org/wiki/GDAL2Tiles_SoC_2007
 ---
 # Geo-Imaging pipeline
 ## Simply
@@ -153,9 +169,6 @@ gdal2tilesp.py -z 0-6 -f PNG out.vrt out
 * _Rejected my own work_ — but could make better use of G'MIC
 * We used an imaging healing method in Photoshop
 
----
-
-
 ``` bash
 gmic kindlmann-MY1DMM_CHLORA_2016-01.tif -to_colormode 3 \
   bathy.3600x1800.threshold.png \
@@ -165,7 +178,7 @@ gmic kindlmann-MY1DMM_CHLORA_2016-01.tif -to_colormode 3 \
   -o result.png
 ```
 
-gmic.eu
+http://gmic.eu
 
 ---
 
@@ -180,6 +193,23 @@ gmic.eu
 ## 8-bit = 256 color levels
 
 ![](assets/index-modis_chlor-levels.png)
+
+---
+
+# Color Lookup Table for 8-bit Index GeoTIFF
+
+<hr>
+
+``` bash
+
+gdal_translate -of VRT MY1DMM_CHLORA_2016-07-01_rgb_3600x1800.TIFF clut.vrt
+
+# edit the clut.vrt to make blue2red, or any other color LUT
+
+# cp clut.vrt clut.blue2red.vrt
+gdal_translate clut.blue2red.vrt MY1DMM_CHLORA_2016-07-01_rgb_3600x1800.clut.blue2red.TIFF
+
+```
 
 ---
 
@@ -247,10 +277,23 @@ GDAL drivers to the rescue
 
 # `WebP`
 
-* Limits on Mapbox.com - A single `xyz` tile cannot be > 500 KB
+* Limits on Mapbox.com - A single tile as an image file cannot be > 500 KB
+  * http:// RobLabs/{z}/{x}/{y}.png
 * `WebP` scales well for Mobile map solutions
 
 ![](assets/index-500k.png)
+
+---
+
+```bash
+gdal_translate -of vrt file.tif out.vrt
+
+gdal2tilesp.py -z 0-6 -f WEBP out.vrt out
+```
+
+WEBP
+
+https://github.com/roblabs/gdal2tilesp
 
 ---
 
@@ -270,6 +313,14 @@ NEO Data Available
 * *8-day* data since July 2002
   * > 650 8-day periods
 
+---
+
+# Floating Point data
+
+* Units mg/m^3
+* 1.0° data shown
+
+![](assets/index-raw-csv.png)
 
 ---
 
@@ -326,7 +377,7 @@ http://Oceaneos.org/chlorophyllmap
 * Scale
 * Maps as a time series
 * Image compression
-* Visualization libraries for the Javascript
+* Visualization libraries for Javascript
 
 ---
 

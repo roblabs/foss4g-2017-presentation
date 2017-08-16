@@ -47,17 +47,28 @@ Plotly.js events are captured and routed to Mapbox GL JS, which then makes updat
 <h1 id="using-mapbox-and-gdal-to-visualize-trends-in">Using Mapbox and GDAL to Visualize Trends in</h1>
 <h1 id="ocean-phytoplankton-from-nasa-earth-observations-satellite-images">Ocean Phytoplankton from NASA Earth Observations Satellite Images</h1>
 <p><br></p>
-<h2 id="command-line-cartography">Command Line Cartography</h2>
+<h2 id="presented-at-foss4g-2017-boston-august-16-2017">Presented at FOSS4G 2017 Boston, August 16, 2017</h2>
 <p><br></p>
 <p><img src="assets/index-Rob-Chohan.png" alt=""></p>
 <p><a href="http://RobLabs.com">http://RobLabs.com</a></p>
 <p><br></p>
 <p><img src="assets/index-Michiel-Riedjijk.png" alt=""></p>
 <p><a href="http://Oceaneos.org">http://Oceaneos.org</a></p>
-<p><br></p>
-<h2 id="presented-at-foss4g-2017-boston-wed-aug-16-2017">Presented at FOSS4G 2017 Boston, Wed Aug 16, 2017</h2>
+<hr>
+
+<h2 id="command-line-cartography">Command Line Cartography</h2>
 </div>
-<div><ul>
+<div><h1 id="e-maps-offline-maps-for-mobile">eπ Maps — Offline Maps for Mobile</h1>
+<p><img src="assets/index-epi-apps.png" alt=""></p>
+<h3 id="ios">iOS</h3>
+<hr>
+
+<p><img src="assets/index-epi-apps-android.png" alt=""></p>
+<h3 id="android">Android</h3>
+<h5 id="epi-rational-inc-">ePi Rational, Inc.</h5>
+</div>
+<div><h1 id="topics">Topics</h1>
+<ul>
 <li>Maps tell stories</li>
 <li>Visualizing NASA Earth Observations Satellite Images</li>
 <li>Image Compression with <code>WebP</code></li>
@@ -65,7 +76,7 @@ Plotly.js events are captured and routed to Mapbox GL JS, which then makes updat
 </div>
 <div><h1 id="oceaneos-marine-research-foundation">Oceaneos Marine Research Foundation</h1>
 <p><img src="assets/index-OceanSeedingDiagram-854x474.png" alt=""></p>
-<p>Adding nutrients to a depleted marine ecosystem.</p>
+<p>&quot;Adding nutrients to a depleted marine ecosystem.&quot;&quot;</p>
 </div>
 <div><h1 id="icelandic-volcano">Icelandic Volcano</h1>
 <table>
@@ -89,13 +100,13 @@ Plotly.js events are captured and routed to Mapbox GL JS, which then makes updat
 </div>
 <div><h1 id="nasa-earth-observations-neo-">NASA Earth Observations (NEO)</h1>
 </div>
-<div><h3 id="one-of-the-best-places-to-study-earth-is-from-space-">One of the best places to study Earth is from space.</h3>
+<div><h3 id="-one-of-the-best-places-to-study-earth-is-from-space-">&quot;One of the best places to study Earth is from space.&quot;&quot;</h3>
 <p><br></p>
-<h3 id="nasa-satellites-continually-orbit-the-globe-collecting-information-about-earth-s-ocean-atmosphere-and-land-surfaces-">NASA satellites continually orbit the globe, collecting information about Earth’s ocean, atmosphere, and land surfaces.</h3>
+<h3 id="-nasa-satellites-continually-orbit-the-globe-collecting-information-about-earth-s-ocean-atmosphere-and-land-surfaces-">&quot;NASA satellites continually orbit the globe, collecting information about Earth’s ocean, atmosphere, and land surfaces.&quot;&quot;</h3>
 <p><br></p>
-<h3 id="satellites-can-even-monitor-the-activity-of-life-forms-such-as-_phytoplankton_-from-their-remote-vantage-points-">Satellites can even monitor the activity of life forms, such as <em>phytoplankton</em>, from their remote vantage points.</h3>
+<h3 id="-satellites-can-even-monitor-the-activity-of-life-forms-such-as-_phytoplankton_-from-their-remote-vantage-points-">&quot;Satellites can even monitor the activity of life forms, such as <em>phytoplankton</em>, from their remote vantage points.&quot;&quot;</h3>
 <p><br></p>
-<h3 id="neo-is-part-of-the-eos-project-science-office-located-at-nasa-goddard-space-flight-center-">NEO is part of the EOS Project Science Office located at NASA Goddard Space Flight Center.</h3>
+<h3 id="-neo-is-part-of-the-eos-project-science-office-located-at-nasa-goddard-space-flight-center-">&quot;NEO is part of the EOS Project Science Office located at NASA Goddard Space Flight Center.&quot;&quot;</h3>
 </div>
 <div><h1 id="neo">NEO</h1>
 <p><img src="assets/index-NEO-Ocean.png" alt=""></p>
@@ -136,6 +147,7 @@ Plotly.js events are captured and routed to Mapbox GL JS, which then makes updat
 
 gdal2tilesp.py -z 0-6 -f PNG out.vrt out
 </code></pre>
+<p>source — GDAL2Tiles  <a href="http://wiki.osgeo.org/wiki/GDAL2Tiles_SoC_2007">http://wiki.osgeo.org/wiki/GDAL2Tiles_SoC_2007</a></p>
 </div>
 <div><h1 id="geo-imaging-pipeline">Geo-Imaging pipeline</h1>
 <h2 id="simply">Simply</h2>
@@ -170,15 +182,14 @@ gdal2tilesp.py -z 0-6 -f PNG out.vrt out
 <li><em>Rejected my own work</em> — but could make better use of G&#39;MIC</li>
 <li>We used an imaging healing method in Photoshop</li>
 </ul>
-</div>
-<div><pre><code class="lang-bash">gmic kindlmann-MY1DMM_CHLORA_2016-01.tif -to_colormode 3 \
+<pre><code class="lang-bash">gmic kindlmann-MY1DMM_CHLORA_2016-01.tif -to_colormode 3 \
   bathy.3600x1800.threshold.png \
   -blend xor \
   --select_color[0] 0,0,0,0 \
   -inpaint[0] [1],0 \
   -o result.png
 </code></pre>
-<p>gmic.eu</p>
+<p><a href="http://gmic.eu">http://gmic.eu</a></p>
 </div>
 <div><h1 id="color-lookup-tables-clut-">Color Lookup Tables (cLUT)</h1>
 <p><img src="assets/index-legend.png" alt=""></p>
@@ -186,6 +197,18 @@ gdal2tilesp.py -z 0-6 -f PNG out.vrt out
 <div><h1 id="8-bit-index-geotiff">8-bit Index GeoTIFF</h1>
 <h2 id="8-bit-256-color-levels">8-bit = 256 color levels</h2>
 <p><img src="assets/index-modis_chlor-levels.png" alt=""></p>
+</div>
+<div><h1 id="color-lookup-table-for-8-bit-index-geotiff">Color Lookup Table for 8-bit Index GeoTIFF</h1>
+<hr>
+
+<pre><code class="lang-bash">
+gdal_translate -of VRT MY1DMM_CHLORA_2016-07-01_rgb_3600x1800.TIFF clut.vrt
+
+# edit the clut.vrt to make blue2red, or any other color LUT
+
+# cp clut.vrt clut.blue2red.vrt
+gdal_translate clut.blue2red.vrt MY1DMM_CHLORA_2016-07-01_rgb_3600x1800.clut.blue2red.TIFF
+</code></pre>
 </div>
 <div><h1 id="color-advice">Color Advice</h1>
 <table>
@@ -254,10 +277,20 @@ gdal2tilesp.py -z 0-6 -f PNG out.vrt out
 </div>
 <div><h1 id="-webp-"><code>WebP</code></h1>
 <ul>
-<li>Limits on Mapbox.com - A single <code>xyz</code> tile cannot be &gt; 500 KB</li>
+<li>Limits on Mapbox.com - A single tile as an image file cannot be &gt; 500 KB<ul>
+<li>http:// RobLabs/{z}/{x}/{y}.png</li>
+</ul>
+</li>
 <li><code>WebP</code> scales well for Mobile map solutions</li>
 </ul>
 <p><img src="assets/index-500k.png" alt=""></p>
+</div>
+<div><pre><code class="lang-bash">gdal_translate -of vrt file.tif out.vrt
+
+gdal2tilesp.py -z 0-6 -f WEBP out.vrt out
+</code></pre>
+<p>WEBP</p>
+<p><a href="https://github.com/roblabs/gdal2tilesp">https://github.com/roblabs/gdal2tilesp</a></p>
 </div>
 <div><h1 id="time-series">Time Series</h1>
 </div>
@@ -285,6 +318,13 @@ gdal2tilesp.py -z 0-6 -f PNG out.vrt out
 </ul>
 </li>
 </ul>
+</div>
+<div><h1 id="floating-point-data">Floating Point data</h1>
+<ul>
+<li>Units mg/m^3</li>
+<li>1.0° data shown</li>
+</ul>
+<p><img src="assets/index-raw-csv.png" alt=""></p>
 </div>
 <div><h1 id="numpy-for-data-analysis">NumPy for Data Analysis</h1>
 <pre><code class="lang-bash">float = gdal.Open(&#39;MY1DMW_CHLORA_2016-09-05.FLOAT.TIFF&#39;)
@@ -326,7 +366,7 @@ lowPlankton = numpy.extract(choice, grid)
 <li>Scale</li>
 <li>Maps as a time series</li>
 <li>Image compression</li>
-<li>Visualization libraries for the Javascript</li>
+<li>Visualization libraries for Javascript</li>
 </ul>
 </div>
 <div><h1 id="summary-of-tools">Summary of Tools</h1>
